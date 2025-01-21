@@ -17,7 +17,7 @@ jobs:
         env:
           CIBW_BEFORE_ALL_LINUX: curl -L https://github.com/PortAudio/portaudio/archive/refs/tags/v19.7.0.tar.gz | tar xzvf - && cd portaudio-19.7.0 && ./configure --enable-cxx && make install
           CIBW_BEFORE_ALL_MACOS: curl -L https://github.com/PortAudio/portaudio/archive/refs/tags/v19.7.0.tar.gz | tar xzvf - && cd portaudio-19.7.0 && ./configure --enable-cxx --disable-mac-universal && sudo make install && sudo cp include/pa_mac_core.h /usr/local/include/pa_mac_core.h
-          CIBW_REPAIR_WHEEL_COMMAND_MACOS: ""  # we're not build deps against an old enough deployment target, that's fine though
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: "delocate-wheel -w {dest_dir} -v {wheel}"  # remove --require-archs since we're not building deps against an old enough deployment target
       - uses: actions/upload-artifact@v4
         with:
           name: wheel-${{ matrix.os }}
