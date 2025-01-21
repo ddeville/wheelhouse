@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import json
 import sys
@@ -82,7 +84,9 @@ def ask_package_type() -> Literal["pure", "native"]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Generate Github Action workflow file to build wheels for a given package."
+    )
     parser.add_argument("-n", "--name", required=True)
     parser.add_argument("-v", "--version")
     args = parser.parse_args()
@@ -103,7 +107,7 @@ def main() -> None:
         case "native":
             template = NATIVE_TEMPLATE
 
-    contents = template.replace("$$FULLNAME$$", fullname).replace("$$URL$$", url)
+    contents = template.replace("$$FULLNAME$$", fullname).replace("$$SDIST_URL$$", url)
     with open(WORKFLOWS_DIR / f"{fullname}.yaml", "w") as f:
         f.write(contents)
 
