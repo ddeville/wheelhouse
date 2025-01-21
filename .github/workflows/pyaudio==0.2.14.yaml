@@ -13,6 +13,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
+      - uses: Homebrew/actions/setup-homebrew@master
+        if: startsWith(matrix.os, 'macos')
+      - run: brew install portaudio
+        if: startsWith(matrix.os, 'macos')
+      - run: sudo apt-get install -y portaudio19-dev
+        if: startsWith(matrix.os, 'ubuntu')
       - run: ./scripts/build_native_wheel.sh https://files.pythonhosted.org/packages/26/1d/8878c7752febb0f6716a7e1a52cb92ac98871c5aa522cba181878091607c/PyAudio-0.2.14.tar.gz
       - uses: actions/upload-artifact@v4
         with:
