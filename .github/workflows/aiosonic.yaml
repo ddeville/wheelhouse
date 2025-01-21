@@ -1,0 +1,19 @@
+name: aiosonic==0.15.1
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_wheels:
+    name: Build wheel
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      - run: ./build_python_wheel.sh https://files.pythonhosted.org/packages/74/f7/e2849ca53f8609ec46ab0c7806bbd68b1d2859f06c042ea68de5e7cca1ec/aiosonic-0.15.1.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel
+          path: ./wheelhouse/*.whl
