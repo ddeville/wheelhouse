@@ -70,15 +70,19 @@ def get_sdist_url(package: str, version: str) -> str | None:
     return None
 
 
-def ask_package_type() -> Literal["pure", "native"]:
+def ask_package_type() -> Literal["pure", "native"] | None:
     while True:
-        resp = (
-            input(
-                "Is the package pure Python or does it contain native code? [pure, native]: "
+        try:
+            resp = (
+                input(
+                    "Is the package pure Python or does it contain native code? [pure, native]: "
+                )
+                .strip()
+                .lower()
             )
-            .strip()
-            .lower()
-        )
+        except KeyboardInterrupt:
+            return None
+
         if resp in ["pure", "native"]:
             return cast(Literal["pure", "native"], resp)
 
@@ -101,15 +105,22 @@ def main() -> None:
         )
         sys.exit(1)
 
-    match ask_package_type():
+    pkg_type = ask_package_type()
+    if not pkg_type:
+        sys.exit(1)
+
+    match pkg_type:
         case "pure":
             template = PURE_TEMPLATE
         case "native":
             template = NATIVE_TEMPLATE
 
+    path = WORKFLOWS_DIR / f"{fullname}.yaml"
     contents = template.replace("$$FULLNAME$$", fullname).replace("$$SDIST_URL$$", url)
-    with open(WORKFLOWS_DIR / f"{fullname}.yaml", "w") as f:
+    with open(path, "w") as f:
         f.write(contents)
+
+    print(f"Workflow generated at {path}")
 
 
 if __name__ == "__main__":
