@@ -7,12 +7,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-24.04, ubuntu-24.04-arm, macos-13, macos-14]
+        os: [macos-13, macos-14]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
+      - run: ./scripts/mpi4py/build_mpich.sh
       - run: ./scripts/build_native_wheel.sh https://files.pythonhosted.org/packages/08/34/8499a92a387d24d0092c38089f8195f13c5c76f0f814126af3fe363e5636/mpi4py-4.0.1.tar.gz
       - uses: actions/upload-artifact@v4
         with:
