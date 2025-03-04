@@ -36,7 +36,7 @@ mkdir -p $PREFIX
   --without-pmix \
   --without-yaksa
 
-make -j "$(env -i PATH="$PATH" nproc)"
+make -j 16
 make install
 
 popd
