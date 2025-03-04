@@ -13,8 +13,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.11
+
+      # TODO: Ideally we would build mpich from source instead but it takes an eternity to build...
+      # Luckily homebrew will install the right version for this VM and `cibuildwheel` will repair.
       - uses: Homebrew/actions/setup-homebrew@master
       - run: brew install mpich
+      # - run: ./scripts/mpi4py/build_mpich.sh
+
       - run: ./scripts/build_native_wheel.sh https://files.pythonhosted.org/packages/08/34/8499a92a387d24d0092c38089f8195f13c5c76f0f814126af3fe363e5636/mpi4py-4.0.1.tar.gz
         env:
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=14.0
