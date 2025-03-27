@@ -4,7 +4,7 @@ set -eu -o pipefail
 
 python -m pip install cibuildwheel==2.22.0
 
-export CIBW_BUILD='cp311-*'
+export CIBW_BUILD='cp312-*'
 export CIBW_SKIP='*-musllinux_* *-manylinux_i686 *-manylinux_ppc64le *-manylinux_s390x *-manylinux_armv7l'
 
 mkdir sdist

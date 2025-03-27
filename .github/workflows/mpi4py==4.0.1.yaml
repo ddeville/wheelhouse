@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.12
 
       # TODO: Ideally we would build mpich from source instead but it takes an eternity to build...
       # Luckily homebrew will install the right version for this VM and `cibuildwheel` will repair.

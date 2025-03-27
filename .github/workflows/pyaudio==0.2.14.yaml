@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.12
       - run: ./scripts/build_native_wheel.sh https://files.pythonhosted.org/packages/26/1d/8878c7752febb0f6716a7e1a52cb92ac98871c5aa522cba181878091607c/PyAudio-0.2.14.tar.gz
         env:
           CIBW_BEFORE_ALL_LINUX: curl -L https://github.com/PortAudio/portaudio/archive/refs/tags/v19.7.0.tar.gz | tar xzvf - && cd portaudio-19.7.0 && ./configure --enable-cxx && make install
